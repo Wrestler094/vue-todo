@@ -2,8 +2,8 @@ import { createStore } from 'vuex';
 
 export default createStore({
   state: () => ({
-    viewMode: 'all',
-    todos: [],
+    viewMode: JSON.parse(localStorage.getItem('viewMode')) || 'all',
+    todos: JSON.parse(localStorage.getItem('todos') || '[]'),
   }),
 
   getters: {

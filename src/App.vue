@@ -17,6 +17,15 @@ export default {
     AddTodoBlock,
     TodosBlock,
   },
+  created() {
+    this.unsubscribe = this.$store.subscribe((mutation, state) => {
+      localStorage.setItem('viewMode', JSON.stringify(state.viewMode));
+      localStorage.setItem('todos', JSON.stringify(state.todos));
+    });
+  },
+  beforeUnmount() {
+    this.unsubscribe();
+  },
 };
 </script>
 

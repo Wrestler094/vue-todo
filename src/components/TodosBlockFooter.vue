@@ -37,7 +37,6 @@ export default {
       this.$store.commit('clearCompletedTask');
     },
     setViewMode(mode) {
-      console.log(mode);
       this.$store.commit('setViewMode', mode);
     },
   },
