@@ -40,7 +40,7 @@ export default {
   margin-right: 10px;
   font-weight: bold;
   color: #8686a4;
-  background: #373958;
+  background: inherit;
   border: 1px solid #515372;
   border-radius: 50%;
 
@@ -57,6 +57,7 @@ export default {
 .todo-field__input {
   width: 100%;
   font-size: 16px;
+  font-weight: bold;
   color: #8686a4;
   border: none;
   background: inherit;
