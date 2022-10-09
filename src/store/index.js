@@ -25,6 +25,12 @@ export default createStore({
 
       state.todos = [newTodo, ...state.todos];
     },
+    todoStatusHandler(state, index) {
+      state.todos[index].completed = !state.todos[index].completed;
+    },
+    editTodo(state, [todo, index]) {
+      state.todos[index].todo = todo;
+    },
   },
 
   actions: {},
