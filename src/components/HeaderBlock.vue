@@ -4,7 +4,7 @@
 
 <script></script>
 
-<style scoped>
+<style lang="scss" scoped>
 .title {
   margin-bottom: 10px;
   text-transform: uppercase;

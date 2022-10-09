@@ -24,7 +24,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .todo-field {
   display: flex;
   width: 100%;
@@ -43,6 +43,15 @@ export default {
   background: #373958;
   border: 1px solid #515372;
   border-radius: 50%;
+
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
 }
 
 .todo-field__input {
