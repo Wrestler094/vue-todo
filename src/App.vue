@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <header-block></header-block>
-    <add-todo-block></add-todo-block>
-    <todos-block></todos-block>
+    <header-block />
+    <add-todo-block />
+    <todos-block />
   </div>
 </template>
 
