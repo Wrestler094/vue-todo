@@ -71,6 +71,15 @@ export default {
 .footer__menu-item {
   margin-right: 10px;
   font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
 }
 
 .footer__menu-item--last {
@@ -83,5 +92,14 @@ export default {
 
 .footer__clear-completed {
   font-weight: 500;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
 }
 </style>
