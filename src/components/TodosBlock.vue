@@ -1,33 +1,36 @@
 <template>
   <div class="todos">
-    <ul v-if="todos.length" class="todos__list">
-      <todo-item v-for="(item, index) in todos" :todo="item" :key="item.id" :index="index" />
+    <ul v-if="getTodos.length" class="todos__list">
+      <todo-item
+        v-for="(item, index) in getTodos"
+        :todo="item"
+        :key="item.id"
+        :index="index"
+        :isChecked="!item.completed"
+      />
     </ul>
-    <p v-else class="todos__empty">Your todo list is empty</p>
-    <!--    <todos-block-footer />-->
+    <p v-else class="todos__empty">This todo list is empty</p>
+    <todos-block-footer />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import TodoItem from './TodoItem.vue';
-// import TodosBlockFooter from './TodosBlockFooter.vue';
+import TodosBlockFooter from './TodosBlockFooter.vue';
 
 export default {
   components: {
-    // TodosBlockFooter,
+    TodosBlockFooter,
     TodoItem,
   },
-
-  data: function () {
-    return {};
-  },
-
-  methods: {},
 
   computed: {
     ...mapState({
       todos: state => state.todos,
+    }),
+    ...mapGetters({
+      getTodos: 'getTodos',
     }),
   },
 };

@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 
 export default createStore({
   state: () => ({
+    viewMode: 'all',
     todos: [],
   }),
 
@@ -11,6 +12,19 @@ export default createStore({
         return state.todos[0].id + 1;
       } else {
         return 1;
+      }
+    },
+    getTodos: state => {
+      if (state.viewMode === 'all') {
+        return state.todos;
+      } else if (state.viewMode === 'active') {
+        return state.todos.filter(todo => {
+          return todo.completed === false;
+        });
+      } else {
+        return state.todos.filter(todo => {
+          return todo.completed === true;
+        });
       }
     },
   },
@@ -30,6 +44,14 @@ export default createStore({
     },
     editTodo(state, [todo, index]) {
       state.todos[index].todo = todo;
+    },
+    clearCompletedTask(state) {
+      state.todos = state.todos.filter(todo => {
+        return todo.completed === false;
+      });
+    },
+    setViewMode(state, mode) {
+      state.viewMode = mode;
     },
   },
 
