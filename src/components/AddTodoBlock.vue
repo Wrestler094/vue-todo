@@ -16,7 +16,7 @@ export default {
   methods: {
     addTodo() {
       if (this.todoInput) {
-        this.$store.commit('addTodo', this.todoInput);
+        this.$store.dispatch('postTodo', this.todoInput);
         this.todoInput = '';
       }
     },

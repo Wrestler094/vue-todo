@@ -3,6 +3,7 @@
     <header-block />
     <add-todo-block />
     <todos-block />
+    <button @click="fetchTodos" class="fetch-button">Fetch todos</button>
   </div>
 </template>
 
@@ -10,6 +11,7 @@
 import HeaderBlock from './components/HeaderBlock.vue';
 import AddTodoBlock from './components/AddTodoBlock.vue';
 import TodosBlock from './components/TodosBlock.vue';
+import { mapActions } from 'vuex';
 
 export default {
   components: {
@@ -17,6 +19,7 @@ export default {
     AddTodoBlock,
     TodosBlock,
   },
+
   created() {
     this.unsubscribe = this.$store.subscribe((mutation, state) => {
       localStorage.setItem('viewMode', JSON.stringify(state.viewMode));
@@ -26,6 +29,14 @@ export default {
   beforeUnmount() {
     this.unsubscribe();
   },
+
+  methods: {
+    ...mapActions({
+      fetchTodos: 'fetchTodos',
+    }),
+  },
+
+  computed: {},
 };
 </script>
 
@@ -34,5 +45,11 @@ export default {
   max-width: 760px;
   margin: 0 auto;
   padding: 40px;
+}
+
+.fetch-button {
+  margin-top: 20px;
+  padding: 5px 20px;
+  cursor: pointer;
 }
 </style>

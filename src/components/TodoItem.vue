@@ -17,10 +17,13 @@
       @blur="inputBlurHandler"
       autofocus
     />
+    <button class="todo-item__delete-button" @click.prevent="deleteTodo(todo.id)">X</button>
   </li>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   props: {
     todo: Object,
@@ -30,28 +33,34 @@ export default {
   data() {
     return {
       todoCompleted: this.todo.completed,
-      todoContent: this.todo.todo,
+      todoContent: this.todo.title,
       editMode: false,
     };
   },
 
   methods: {
+    ...mapActions({
+      deleteTodo: 'deleteTodo',
+      patchTodo: 'patchTodo',
+    }),
     editTodo() {
       this.editMode = false;
-      this.$store.commit('editTodo', [this.todoContent, this.index]);
+      this.patchTodo([this.todoContent, this.index, this.todo.id]);
     },
     launchEditMode() {
       this.editMode = true;
       this.focus;
     },
-    inputBlurHandler() {
-      if (this.todo.todo !== this.todoContent) {
-        this.todoContent = this.todo.todo;
-      }
-      this.editMode = false;
-    },
     changeTodoStatus() {
       this.$store.commit('todoStatusHandler', this.index);
+    },
+    inputBlurHandler() {
+      setTimeout(() => {
+        if (this.todo.title !== this.todoContent) {
+          this.todoContent = this.todo.title;
+        }
+        this.editMode = false;
+      }, 500);
     },
   },
 };
@@ -78,6 +87,7 @@ export default {
   min-width: 80%;
   min-height: 30px;
   width: 100%;
+  margin-right: 10px;
   font-size: 16px;
   background: inherit;
   border: none;
@@ -137,5 +147,24 @@ export default {
   transform: rotate(45deg);
   opacity: 0;
   transition: opacity 0.25s ease;
+}
+
+.todo-item__delete-button {
+  display: none;
+  margin-left: auto;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+}
+
+.todo-item:hover .todo-item__delete-button {
+  display: block;
 }
 </style>

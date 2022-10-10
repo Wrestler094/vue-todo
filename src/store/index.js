@@ -31,19 +31,15 @@ export default createStore({
 
   mutations: {
     addTodo(state, todo) {
-      const newTodo = {
-        id: this.getters.getIdForTodo,
-        todo: todo,
-        completed: false,
-      };
-
-      state.todos = [newTodo, ...state.todos];
+      // API возвращает один и тот же id всем добавляемым элементам
+      todo.id = Math.ceil(todo.id * Math.random() * 100);
+      state.todos = [todo, ...state.todos];
     },
     todoStatusHandler(state, index) {
       state.todos[index].completed = !state.todos[index].completed;
     },
-    editTodo(state, [todo, index]) {
-      state.todos[index].todo = todo;
+    editTodo(state, [title, index]) {
+      state.todos[index].title = title;
     },
     clearCompletedTask(state) {
       state.todos = state.todos.filter(todo => {
@@ -53,7 +49,77 @@ export default createStore({
     setViewMode(state, mode) {
       state.viewMode = mode;
     },
+    setTodos(state, todos) {
+      state.todos = [...state.todos, ...todos];
+    },
+    removeTodo(state, id) {
+      state.todos = state.todos.filter(item => {
+        return item.id !== id;
+      });
+    },
   },
 
-  actions: {},
+  actions: {
+    async fetchTodos({ commit }) {
+      fetch('https://jsonplaceholder.typicode.com/todos')
+        .then(response => response.json())
+        .then(fetchedTodos => {
+          commit('setTodos', fetchedTodos);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async postTodo({ commit, getters }, todo) {
+      fetch(`https://jsonplaceholder.typicode.com/todos`, {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: 1,
+          id: getters.getIdForTodo,
+          title: todo,
+          completed: false,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then(response => response.json())
+        .then(json => {
+          commit('addTodo', json);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async deleteTodo({ commit }, id) {
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: 'DELETE',
+      })
+        .then(response => response.json())
+        .then(json => {
+          commit('removeTodo', id);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    async patchTodo({ commit }, [title, index, id]) {
+      fetch(`https://jsonplaceholder.typicode.com/todos/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          title: title,
+        }),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      })
+        .then(response => response.json())
+        .then(json => {
+          commit('editTodo', [json.title, index]);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  },
 });
